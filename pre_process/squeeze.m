@@ -1,4 +1,13 @@
-function [signal, success] = squeeze(signal, ratio, win_len)
+function [spec] = squeeze(signal, ratio, win_len, target_cols)
+[signal, success] = time_squeeze(signal, ratio, win_len);
+spec = spectro(signal);
+if success == 0
+    spec = imresize(spec, [size(spec, 1), target_cols]);
+end
+end
+
+function [signal, success] = time_squeeze(signal, ratio, win_len)
+% Dropout 6% time domain energy, trying to reach dropout rate of ratio
 len = size(signal, 1);
 len2 = floor(len * ratio);
 [~, e] = stzcr(signal, win_len);
@@ -10,6 +19,9 @@ end_ = find(cum < m * 0.97, 1, 'last');
 if end_ - start_ > len2
 %     signal2 = drop_low(signal(start_:end_), e(start_:end_), len2);
     warning('Unable to determine ends with energy by %f%%', (end_-start_)/len2*100-100);
+    start_ = find(cum > m * 0.01, 1);
+    end_ = find(cum < m * 0.99, 1, 'last');
+    signal = signal(start_ : end_);
     success = 0;
     return;
 end

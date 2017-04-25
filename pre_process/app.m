@@ -10,14 +10,18 @@ N_OVERLAP = floor(WIN_LEN * 0.5);
 
 
 %% process
-SHAPE = [32, 198];
+SHAPE = [32, 118];
 
 for word = words
     for i = 1:20
         wav = audioread(sprintf('%s%s-%02d.dat', prefix, char(word), i));
-        spec = spectro(wav);
-        
-        assert(all(size(spec) == SHAPE));   % TODO
+%         spec = spectro(wav);          
+        spec = squeeze(wav(:,1), 0.6, WIN_LEN, SHAPE(2));  
+        try
+            assert(all(size(spec) == SHAPE));   % TODO
+        catch
+            disp(size(spec));
+        end
         
         filename = strcat(save_to, char(word), '.txt');
         save(filename, '-ascii', '-append', 'spec');
