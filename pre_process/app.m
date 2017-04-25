@@ -36,3 +36,12 @@ win_len = floor(8192 * 0.02);
 n_overlap = floor(win_len * 0.5);
 n_freq = 64;
 spectrogram(wav(:,1), win_len, n_overlap, n_freq, freq);
+
+%% stzcr
+[z,e] = stzcr(wav(:,1), WIN_LEN);
+subplot(3,1,1);
+plot(z);title('zero-cross');
+subplot(3,1,2);
+plot(e);title('energy');
+subplot(3,1,3);
+plot(wav(:,1));
