@@ -20,6 +20,6 @@ if size(wav, 2) > 1
 end
 
 spec = spectrogram(wav, win_len, n_overlap, n_freq, max_freq);
-spec = log(abs(spec(2:end,:)));             % dropping lowest freq to align 
+spec = abs(spec(2:end,:));                  % dropping lowest freq to align 
 end
 

@@ -22,7 +22,8 @@ for word = words
         filename = strcat(save_to, char(word), '.txt');
         save(filename, '-ascii', '-append', 'spec');
     end
+    display(char(word))
 end
 save(strcat(save_to, 'config.txt'), '-ascii', 'SHAPE');
 
-disp(spec);
+% disp(spec);
