@@ -51,15 +51,15 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to):
     x_image = tf.reshape(x, [-1, n_rows, n_cols, 1])
 
     # the 1st convolution layer
-    w_conv1 = weight_variable([5, 5, 1, 32])    # 32 conv kernel, each is 5rows * 5cols * 1channel
-    b_conv1 = bias_variable([32])
+    w_conv1 = weight_variable([5, 5, 1, 64])    # 32 conv kernel, each is 5rows * 5cols * 1channel
+    b_conv1 = bias_variable([64])
     # the virtue of ReLu activation function is its not being susceptible to gradient diffusion
     h_conv1 = tf.nn.relu(conv2d(x_image, w_conv1) + b_conv1)        # relu(f) === max(f, 0)
     h_pool1 = max_pool_2x2(h_conv1)
 
     # the 2nd convolution layer
-    w_conv2 = weight_variable([5, 5, 32, 64])   # full connection between two conv layers
-    b_conv2 = bias_variable([64])
+    w_conv2 = weight_variable([5, 5, 64, 128])   # full connection between two conv layers
+    b_conv2 = bias_variable([128])
     h_conv2 = tf.nn.relu(conv2d(h_pool1, w_conv2) + b_conv2)
     h_pool2 = max_pool_2x2(h_conv2)
     # now the shape of tensor is 64kernels * [7*7]image
@@ -67,9 +67,9 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to):
     ignore, n_rows_, n_cols_, n_kernels = h_pool2.get_shape().as_list()
 
     # reshape and full connection layer
-    w_fc1 = weight_variable([n_rows_ * n_cols_ * 64, 1024])             # 1024 is arbitrary
+    w_fc1 = weight_variable([n_rows_ * n_cols_ * 128, 1024])             # 1024 is arbitrary
     b_fc1 = bias_variable([1024])
-    h_pool2_flat = tf.reshape(h_pool2, [-1, n_rows_ * n_cols_ * 64])    # flatten for kx+b
+    h_pool2_flat = tf.reshape(h_pool2, [-1, n_rows_ * n_cols_ * 128])    # flatten for kx+b
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, w_fc1) + b_fc1)
 
     # Dropout Layer
