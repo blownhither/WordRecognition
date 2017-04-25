@@ -8,7 +8,7 @@ if nargin < 5
     max_freq = 8192;                        % recording freqency
 end
 if nargin < 4
-    n_freq = 256;                           % freq resolution 
+    n_freq = 64;                            % freq resolution 
 end
 if nargin < 2
     win_len = floor(max_freq * 0.02);       % 20ms

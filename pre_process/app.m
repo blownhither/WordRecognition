@@ -10,7 +10,7 @@ N_OVERLAP = floor(WIN_LEN * 0.5);
 
 
 %% process
-SHAPE = [128, 198];
+SHAPE = [32, 198];
 
 for word = words
     for i = 1:20
@@ -27,3 +27,12 @@ end
 save(strcat(save_to, 'config.txt'), '-ascii', 'SHAPE');
 
 % disp(spec);
+
+%% demo
+word = 'China';
+wav = audioread(sprintf('%s%s-%02d.dat', prefix, char(word), 1));
+freq = 8192;
+win_len = floor(8192 * 0.02);
+n_overlap = floor(win_len * 0.5);
+n_freq = 64;
+spectrogram(wav(:,1), win_len, n_overlap, n_freq, freq);
