@@ -1,3 +1,4 @@
+# coding=UTF-8
 """
 Credits to voidrank@github
 """
@@ -9,6 +10,7 @@ import numpy as np
 import wave
 import sys
 import time
+
 
 def rec(name, hint):
     pl.close()

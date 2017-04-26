@@ -30,6 +30,10 @@ def read_all_specs():
         assert y.shape[1] == N_TYPES
     x = x[1:]
     y = y[1:]
+
+    x = x.astype(np.float32)
+    y = y.astype(np.float32)
+    x = (np.min(x) + x) / (np.max(x) - np.min(x))
     return BatchMaker(x, y)
 
 

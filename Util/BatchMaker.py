@@ -5,7 +5,7 @@ class BatchMaker:
     def __init__(self, x, y_):
         self._x = np.array(x)
         self._y = np.array(y_)
-        self._used = False
+        # self._used = False
 
         assert self._x.shape[0] == self._y.shape[0]
 
@@ -20,8 +20,8 @@ class BatchMaker:
         self._y = self._y[index]
 
     def next_batch(self, size):
-        self._used = True
-        assert 0 < size < self._n
+        # self._used = True
+        assert 0 < size <= self._n
         if self._p + size > self._n:
             self.shuffle()
             self._p = 0
@@ -51,3 +51,13 @@ class BatchMaker:
 
     def shape(self):
         return self._x.shape, self._y.shape
+
+
+
+
+if __name__ == '__main__':
+    def test():
+        b = BatchMaker(
+            x=np.tile(np.arange(10).reshape((10, 1)), (1, 10)),
+            y_=np.arange(10)
+        )
