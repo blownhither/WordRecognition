@@ -31,6 +31,8 @@ def read_all_specs():
     x = x[1:]
     y = y[1:]
 
+    x = (x - np.mean(x)) * 256 / (np.max(x) - np.min(x))
+
     x = x.astype(np.float32)
     y = y.astype(np.float32)
     x = (np.min(x) + x) / (np.max(x) - np.min(x))
@@ -39,12 +41,15 @@ def read_all_specs():
 
 def main():
     b = read_all_specs()
-    train, test = b.split(test_ratio=0.1)
+    train, test = b.split(test_ratio=0.05)
     print("Loaded data train %s, test %s" % (str(train.shape()), str(test.shape())))
 
     sess = tf.InteractiveSession()
 
     run(train, test, SHAPE)
+    saver = tf.train.Saver()
+
+    saver.save(sess, 'model')
 
 if __name__ == '__main__':
     main()
