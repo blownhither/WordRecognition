@@ -27,3 +27,10 @@ for word = words
     disp(char(word));
 end
 display(count / 600);
+
+%% check
+f = fopen('list.txt', 'r', 'n', 'utf-8');
+line = fgetl(f);
+wav = audioread(line);
+SHAPE = [32, 78];
+spec_squeeze(wav(:,1), 0.4, WIN_LEN, SHAPE(2));
