@@ -31,11 +31,18 @@ def read_all_specs():
     x = x[1:]
     y = y[1:]
 
-    x = (x - np.mean(x)) * 256 / (np.max(x) - np.min(x))
-
     x = x.astype(np.float32)
     y = y.astype(np.float32)
-    x = (np.min(x) + x) / (np.max(x) - np.min(x))
+
+    x = (x - np.min(x)) / (np.max(x) - np.min(x))
+
+    print(x.shape)
+    count = 0
+    for i in range(x.shape[0] - 1, -1, -1):
+        if x[i].max() - x[i].min() < 0.1:
+            count += 1
+        x[i] = (x[i] - x[i].min()) / (x[i].max() - x[i].min())
+    print(count)
     return BatchMaker(x, y)
 
 
@@ -48,7 +55,6 @@ def main():
 
     run(train, test, SHAPE)
     saver = tf.train.Saver()
-
     saver.save(sess, 'model')
 
 if __name__ == '__main__':
