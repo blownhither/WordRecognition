@@ -39,7 +39,9 @@ def max_pool_2x2(x):
 
 
 # main function
-def run(train_batch_feeder, test_batch_feeder, reshape_to):
+def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
+    sess = tf.InteractiveSession()
+
     assert isinstance(train_batch_feeder, BatchMaker)
     assert isinstance(test_batch_feeder, BatchMaker)
 
@@ -91,23 +93,38 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to):
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+    if train:
+        print("Start training")
+        # start
+        tf.global_variables_initializer().run()
+        for i in range(1000):
+            # batch = mnist.train.next_batch(50)
+            batch = train_batch_feeder.next_batch(50)
+            if i % 20 == 0:
+                train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+                print("%s step %d, training accuracy %g" % (datetime.now(), i, train_accuracy))
+            train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-    print("Start training")
-    # start
-    tf.global_variables_initializer().run()
-    for i in range(1000):
-        # batch = mnist.train.next_batch(50)
-        batch = train_batch_feeder.next_batch(50)
-        if i % 20 == 0:
-            train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
-            print("%s step %d, training accuracy %g" % (datetime.now(), i, train_accuracy))
-        train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+        batch = test_batch_feeder.all()
+        print("test accuracy %g" % accuracy.eval(feed_dict={
+            # x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0
+            x: batch[0], y_: batch[1], keep_prob: 1.0
+        }))
 
-    batch = test_batch_feeder.all()
-    print("test accuracy %g" % accuracy.eval(feed_dict={
-        # x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0
-        x: batch[0], y_: batch[1], keep_prob: 1.0
-    }))
+        saver = tf.train.Saver()
+        save_path = saver.save(sess, 'model/model')
+        print(save_path)
+    else:
+        saver = tf.train.Saver()
+        read_path = saver.restore(sess, 'model/model')
+        print(read_path)
+        batch = test_batch_feeder.next_batch(10)
+        result = y_conv.eval(feed_dict={
+            x: batch[0], y_: batch[1], keep_prob: 1.0
+        })
+        print(result)
+        print(np.argmax(result, 1))
+        print(np.argmax(batch[1], 1))
 
 
 if __name__ == '__main__':

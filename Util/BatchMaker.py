@@ -11,6 +11,7 @@ class BatchMaker:
 
         self._p = 0
         self._n = self._x.shape[0]
+        self.shuffle_count = 0
         self.shuffle()
 
     def shuffle(self):
@@ -18,6 +19,7 @@ class BatchMaker:
         np.random.shuffle(index)
         self._x = self._x[index]
         self._y = self._y[index]
+        self.shuffle_count += 1
 
     def next_batch(self, size):
         # self._used = True
@@ -51,8 +53,6 @@ class BatchMaker:
 
     def shape(self):
         return self._x.shape, self._y.shape
-
-
 
 
 if __name__ == '__main__':

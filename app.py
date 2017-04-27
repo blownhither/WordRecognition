@@ -3,7 +3,7 @@ import tensorflow as tf
 
 from config import *
 from Util.BatchMaker import BatchMaker
-from SimpleCNN import run
+import SimpleCNN
 
 SHAPE = np.fromfile('spec/config.txt', sep=' ').astype(np.int)
 LINE_LEN = SHAPE[0] * SHAPE[1]
@@ -51,11 +51,9 @@ def main():
     train, test = b.split(test_ratio=0.05)
     print("Loaded data train %s, test %s" % (str(train.shape()), str(test.shape())))
 
-    sess = tf.InteractiveSession()
-
-    run(train, test, SHAPE)
-    saver = tf.train.Saver()
-    saver.save(sess, 'model')
+    SimpleCNN.run(train, test, SHAPE)
+    # saver = tf.train.Saver()
+    # saver.save(sess, 'model/model')
 
 if __name__ == '__main__':
     main()
