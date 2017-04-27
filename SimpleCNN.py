@@ -83,10 +83,14 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
     # Softmax layer
     w_fc2 = weight_variable([1024, n_outputs])
     b_fc2 = bias_variable([n_outputs])
-    y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, w_fc2) + b_fc2)
+    y_fc2 = tf.matmul(h_fc1_drop, w_fc2) + b_fc2
+    # y_conv = tf.nn.softmax(y_fc2 - tf.reduce_max(y_fc2))    # TODO: avoid overflow?
+    # y_conv = tf.maximum(tf.nn.softmax(y_fc2), 1e-12)
+    y_conv = tf.nn.softmax(y_fc2)
 
     # loss function
-    cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
+    # cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
+    cross_entropy = -tf.reduce_sum(y_ * tf.log(tf.clip_by_value(y_conv, 1e-10, 1.0)))
     train_step = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cross_entropy)
 
     # evaluation function
@@ -97,12 +101,16 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
         print("Start training")
         # start
         tf.global_variables_initializer().run()
-        for i in range(1000):
+        for i in range(2000):
             # batch = mnist.train.next_batch(50)
             batch = train_batch_feeder.next_batch(50)
-            if i % 20 == 0:
+            if i % 50 == 0:
                 train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print("%s step %d, training accuracy %g" % (datetime.now(), i, train_accuracy))
+
+                if i > 500 and train_accuracy < 0.1:
+                    print("pause")
+
             train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
         batch = test_batch_feeder.all()
