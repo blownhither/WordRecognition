@@ -39,6 +39,10 @@ class BatchMaker:
     def split(self, test_ratio=None, n_test=None):
         assert test_ratio is None or n_test is None
         self.shuffle()
+
+        if test_ratio == 0 or n_test == 0:
+            return self, None
+
         end = n_test or int((1 - test_ratio) * self._n)
         assert 0 < end < self._n
 
