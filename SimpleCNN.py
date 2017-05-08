@@ -84,7 +84,7 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
     w_fc2 = weight_variable([1024, n_outputs])
     b_fc2 = bias_variable([n_outputs])
     y_fc2 = tf.matmul(h_fc1_drop, w_fc2) + b_fc2
-    # y_conv = tf.nn.softmax(y_fc2 - tf.reduce_max(y_fc2))    # TODO: avoid overflow?
+    # y_conv = tf.nn.softmax(y_fc2 - tf.reduce_max(y_fc2))
     # y_conv = tf.maximum(tf.nn.softmax(y_fc2), 1e-12)
     y_conv = tf.nn.softmax(y_fc2)
 
@@ -107,9 +107,6 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
             if i % 50 == 0:
                 train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print("%s step %d, training accuracy %g" % (datetime.now(), i, train_accuracy))
-
-                if i > 500 and train_accuracy < 0.1:
-                    print("pause")
 
             train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
