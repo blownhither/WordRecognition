@@ -101,19 +101,23 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True):
         print("Start training")
         # start
         tf.global_variables_initializer().run()
+
+        test_batch = test_batch_feeder.all()
+
         for i in range(2000):
-            # batch = mnist.train.next_batch(50)
             batch = train_batch_feeder.next_batch(50)
             if i % 50 == 0:
                 train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+                test_accuracy = accuracy.eval(feed_dict={x: test_batch[0], y_: test_batch[1], keep_prob: 1.0})
                 print("%s step %d, training accuracy %g" % (datetime.now(), i, train_accuracy))
+                print("%s step %d, test accuracy %g" % (datetime.now(), i, test_accuracy))
 
             train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-        batch = test_batch_feeder.all()
+
         print("test accuracy %g" % accuracy.eval(feed_dict={
             # x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0
-            x: batch[0], y_: batch[1], keep_prob: 1.0
+            x: test_batch[0], y_: test_batch[1], keep_prob: 1.0
         }))
 
         saver = tf.train.Saver()
