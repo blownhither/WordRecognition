@@ -9,6 +9,6 @@ sess = tf.Session()
 # new_saver = tf.train.import_meta_graph('model.meta')
 # new_saver.restore(sess, tf.train.latest_checkpoint('./'))
 
-train, test = train.read_all_specs().split(0.1)
+test = train.read_all_specs()
 
-SimpleCNN.run(train, test, train.SHAPE, train=False)
+SimpleCNN.run(test, test, train.SHAPE, train=False)
