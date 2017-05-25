@@ -58,6 +58,9 @@ class BatchMaker:
     def shape(self):
         return self._x.shape, self._y.shape
 
+    def y_distribution(self):
+        return np.sum(self._y, 0)
+
 
 if __name__ == '__main__':
     def test():
