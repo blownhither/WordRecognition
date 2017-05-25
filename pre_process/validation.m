@@ -1,6 +1,6 @@
 %% find data
 !sh find_data.sh
-
+!wc list.txt
 %% setting up
 config;
 
@@ -12,7 +12,6 @@ count = 0;
 miss = 0;
 SHAPE = [32, 78];
 
-% TODO: 
 % skip = 0;
 % for i = 1:skip
 %     fgetl(f);
@@ -23,7 +22,7 @@ while ischar(line)
     line = fgetl(f);
     
     if mod(count + miss, 50) == 0
-        disp(count);
+        fprintf('%d within %d\n', count, count + miss);
         p = ftell(f);
         fclose('all');      % close files that audioread forgets to close!
         f = fopen('list.txt', 'r', 'n', 'utf-8');
@@ -45,12 +44,14 @@ while ischar(line)
     end
     position = find(line == '_' | line == '-');
     filename = strcat(save_to, line(position(end-1)+1:position(end)-1), '.txt');
+    
+    
     save(filename, '-ascii', '-append', 'spec');
     count = count + 1;
 
 end
 fclose('all');
-display(sprintf('Read %d files.', count));
-display(sprintf('Ignored %d files.', miss));
+fprintf('Read %d files.\n', count);
+fprintf('Ignored %d files.\n', miss);
 
 

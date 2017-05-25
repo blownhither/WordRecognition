@@ -1,6 +1,6 @@
 %% Setting up
 prefix = '/Users/bh/projects/signal/speech_recog/rec/14307130033-';
-words = {'数字', '语音', '话音', '信号', '分析', '识别', '数据', '中国', '北京', '背景', '上海', '商行', '复旦', '网络', '电脑', 'Speech', 'Voice', 'Sound', 'Happy', 'Lucky', 'Data', 'Recognition', 'File', 'Open', 'Close', 'Start', 'Stop', 'Network', 'Computer', 'China'};
+words = {'??', '??', '??', '??', '??', '??', '??', '??', '??', '??', '??', '??', '??', '??', '??', 'Speech', 'Voice', 'Sound', 'Happy', 'Lucky', 'Data', 'Recognition', 'File', 'Open', 'Close', 'Start', 'Stop', 'Network', 'Computer', 'China'};
 
 save_to = '/Users/bh/projects/signal/speech_recog/spec/';
 

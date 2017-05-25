@@ -1,4 +1,4 @@
-function [spec, success] = spec_squeeze(signal, ratio, win_len, target_cols)
+ function [spec, success] = spec_squeeze(signal, ratio, win_len, target_cols)
 [signal, success] = time_squeeze(signal, ratio, win_len);
 spec = spectro(signal);
 if size(spec, 2) ~= target_cols
