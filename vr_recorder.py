@@ -68,10 +68,10 @@ def rec(name, hint):
 def main():
     hints = ['数字', '语音', '话音', '信号', '分析', '识别', '数据', '中国', '北京', '背景', '上海', '商行', '复旦', '网络', '电脑', 'Speech', 'Voice', 'Sound', 'Happy', 'Lucky', 'Data', 'Recognition', 'File', 'Open', 'Close', 'Start', 'Stop', 'Network', 'Computer', 'China']
     # for i, v in enumerate(hints):
-    for v in hints[-2:]:
-        for step in range(1,20+1):
-            input()
-            rec('./rec/14307130033-%s-%02d.dat' % (v, step), v+str(step))
+    for v in hints[1:]:
+        for step in range(1, 3):
+            raw_input()
+            rec('./czy_rec/%s-%02d.dat' % (v, step), v + str(step))
 
 
 if __name__ == "__main__":

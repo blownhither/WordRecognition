@@ -1,7 +1,6 @@
 %% Setting up
 config;
 
-
 %% process
 SHAPE = [32, 78];
 
