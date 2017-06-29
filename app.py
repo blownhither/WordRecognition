@@ -18,7 +18,7 @@ def file_modify_second(filename):       # seconds from 1970
 
 def main():
     filename = "working/working.txt"
-    last = 0
+    last = file_modify_second(filename)
     y_conv, tf_vars = infer.infer("model/model2017-06-02/model")
     while True:
         time.sleep(1)
@@ -28,10 +28,12 @@ def main():
             print(file_modify_time(temp))
 
             tic = time.time()
-            index = infer.predict(y_conv, tf_vars, data)
+            pred = infer.predict(y_conv, tf_vars, data)
             toc = time.time()
 
+            index = np.argmax(pred)
             print("Recognized: " + config.words[index] + "\t\tTime usage: " + str(toc - tic))
+            print("\tConfidence: %g" % pred[0, index])
             last = temp
 
 

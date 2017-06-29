@@ -93,6 +93,4 @@ def predict(y_conv, tf_vars, data):
         tf_vars[1]: np.zeros((1, 30)),
         tf_vars[2]: 1.0
     })
-    index = np.argmax(pred)
-    # print(pred)
-    return index
+    return pred
