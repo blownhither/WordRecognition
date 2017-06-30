@@ -34,7 +34,10 @@ def read_all_specs():
     x = x.astype(np.float32)
     y = y.astype(np.float32)
 
+    print(np.min(x), np.max(x))
+
     x = (x - np.min(x)) / (np.max(x) - np.min(x))
+
 
     print(x.shape)
     count = 0
@@ -77,6 +80,7 @@ def read_czy_spec():
         x[i] = (x[i] - x[i].min()) / (x[i].max() - x[i].min())
     print(count)
     return BatchMaker(x, y)
+
 
 def main():
     b = read_all_specs()

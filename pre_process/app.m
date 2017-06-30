@@ -32,5 +32,6 @@ freq = 8192;
 win_len = floor(8192 * 0.02);
 n_overlap = floor(win_len * 0.5);
 n_freq = 6400;
+% colormap(');
 spectrogram(wav(:,1), win_len, n_overlap, n_freq, freq);
-imshow(spec, []);
+% imshow(spec, []);

@@ -24,6 +24,9 @@ def main():
         time.sleep(1)
         temp = file_modify_second(filename)
         data = np.fromfile(filename, sep=' ').reshape((1, 2496))
+
+        # data = (data + 1.67) / (30.79  + 1.67)
+        data = (data - data.min()) / (data.max() - data.min())
         if last != temp:                # modified
             print(file_modify_time(temp))
 

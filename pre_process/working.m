@@ -10,8 +10,13 @@ while(true)
     recordblocking(ar, 2);
     disp('Done');
     data = getaudiodata(ar);
+    
+    data = data(100:end, :);
+    
+    tic;
     spec = spec_squeeze(data(:,1), 0.4, WIN_LEN, SHAPE(2));
-%     play(ar);
+    toc;
+    play(ar);
 
     save('../working/working.txt', '-ascii', 'spec');
 end

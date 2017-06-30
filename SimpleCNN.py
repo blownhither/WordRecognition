@@ -1,6 +1,6 @@
 # encoding=UTF-8
 """
-Excerpt from Tensorflow 实战
+Modified from Tensorflow 实战
 """
 
 # from tensorflow.examples.tutorials.mnist import input_data
