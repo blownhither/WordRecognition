@@ -3,6 +3,7 @@ config;
 
 %% mainloop
 ar = audiorecorder(FREQ, 16, 2);
+SHAPE = [32, 78];
 while(true) 
     disp('Press ENTER to start recording: (2s)');
     input('');
@@ -10,6 +11,7 @@ while(true)
     disp('Done');
     data = getaudiodata(ar);
     spec = spec_squeeze(data(:,1), 0.4, WIN_LEN, SHAPE(2));
-    play(ar);
+%     play(ar);
+
     save('../working/working.txt', '-ascii', 'spec');
 end

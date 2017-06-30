@@ -1,12 +1,14 @@
 
 %% stzcr
 [z,e] = stzcr(wav(:,1), WIN_LEN);
-subplot(3,1,1);
-plot(z);title('zero-cross');
-subplot(3,1,2);
-plot(e);title('energy');
-subplot(3,1,3);
-plot(wav(:,1));
+subplot(4,1,1);
+plot(z);title('Short Time Zero-crossing Rate');
+subplot(4,1,2);
+plot(e);title('Short Time Energy');
+subplot(4,1,3);
+plot(cumsum(e));title('Cumsum of Energy');
+subplot(4,1,4);
+plot(wav(:,1));title('Original wave');
 
 %% halve
 
