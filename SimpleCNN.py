@@ -1,9 +1,11 @@
 # encoding=UTF-8
 """
-Modified from Tensorflow 实战
+CNN with simple structure
+
+Modified from Tensorflow实战
 """
 
-# from tensorflow.examples.tutorials.mnist import input_data
+
 import tensorflow as tf
 import numpy as np
 from datetime import datetime, date
@@ -147,8 +149,6 @@ def run(train_batch_feeder, test_batch_feeder, reshape_to, train=True, predict_m
             # x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0
             x: test_batch[0], y_: test_batch[1], keep_prob: 1.0
         }))
-
-
     else:
         saver = tf.train.Saver()
         saver.restore(sess, predict_model_path)

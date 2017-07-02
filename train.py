@@ -1,5 +1,9 @@
+#!/usr/bin/env python2
+"""
+Script for training CNN
+"""
+
 import numpy as np
-import tensorflow as tf
 
 from config import *
 from Util.BatchMaker import BatchMaker

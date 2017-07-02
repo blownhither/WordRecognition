@@ -3,11 +3,7 @@
 import tensorflow as tf
 import numpy as np
 
-import config
 
-from Util.BatchMaker import BatchMaker
-
-# routines
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
@@ -84,7 +80,7 @@ def infer(predict_model_path=""):
     saver = tf.train.Saver()
     saver.restore(sess, predict_model_path)
 
-    return y_conv, (x, y_, keep_prob)
+    return y_conv, (x, y_, keep_prob)           # return variable handle for future use
 
 
 def predict(y_conv, tf_vars, data):
