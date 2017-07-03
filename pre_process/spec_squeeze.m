@@ -1,4 +1,5 @@
- function [spec, success] = spec_squeeze(signal, ratio, win_len, target_cols)
+function [spec, success] = spec_squeeze(signal, ratio, win_len, target_cols)
+%% Interface of spectrum 'squeeze' procedure
 [signal, success] = time_squeeze(signal, ratio, win_len);
 spec = spectro(signal);
 if size(spec, 2) ~= target_cols
@@ -17,7 +18,6 @@ start_ = find(cum > m * 0.03, 1);
 end_ = find(cum < m * 0.97, 1, 'last');
   
 if end_ - start_ > len2
-%     signal2 = drop_low(signal(start_:end_), e(start_:end_), len2);
     warning('Unable to determine ends with energy by %f%%', (end_-start_)/len2*100-100);
     start_ = find(cum > m * 0.01, 1);
     end_ = find(cum < m * 0.99, 1, 'last');
